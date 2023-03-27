@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink as NL } from "react-router-dom";
 
-const NavLink = ({ to, children }) => {
+const NavLink = ({ to, children, onClick }) => {
     return (
-        <NL to={to} className={({ isActive }) => "nav " + (isActive ? "nav-active" : "")} >
+        <NL to={to} className={({ isActive }) => "nav " + (isActive ? "nav-active" : "")} onClick={onClick}>
             {children}
         </NL>
     );

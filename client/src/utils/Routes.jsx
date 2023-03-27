@@ -10,6 +10,20 @@ const routes = createBrowserRouter([
         element: <Home />,
         errorElement: <ErrorPage error='-1' />,
     },
+    {
+        path: "/available",
+        element: <Home />,
+        errorElement: <ErrorPage error='-1' />,
+    },
+    {
+        path: "/owner/:address",
+        element: <Home />,
+    },
+    {
+        path: "/land/:address",
+        element: <Home />,
+        errorElement: <ErrorPage error='-1' />,
+    },
 ]);
 
 export default routes;

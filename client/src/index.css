@@ -3,9 +3,16 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"] {
+  @apply w-full p-2 border rounded-lg focus:border-sky-800 focus:ring focus:ring-sky-800/30 focus:outline-none;
+}
+
 .nav {
-  @apply px-4 py-2 font-semibold rounded-full hover:text-white hover:bg-sky-700;
+  @apply px-6 py-2 font-semibold rounded-full hover:text-white hover:bg-sky-600;
 }
 .nav-active {
-  @apply text-white bg-sky-700;
+  @apply text-white bg-sky-800;
 }

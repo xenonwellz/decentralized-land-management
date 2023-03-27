@@ -1,11 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Web3Context } from '../utils/contexts/Contract';
 import logo from "../imgs/logo.png";
 import NavLink from "./NavLink";
+import SearchOwners from "./modals/SeachOwners"
+import SearchLand from "./modals/SearchLand"
 
 const NavBar = () => {
 
     const { account } = useContext(Web3Context);
+    const [hideOwnerSearch, setHideOwnerSearch] = useState(true);
+    const [hideLandSearch, setHideLandSearch] = useState(true);
+    const [searchAddress, setSearchAddress] = useState("");
 
 
     return (
@@ -13,13 +18,20 @@ const NavBar = () => {
             <div className='container flex justify-between h-16 p-3'>
                 <img src={logo} className="w-10 h-10 rounded-md" alt="" />
 
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-1'>
                     <NavLink to="/" >
                         Home
                     </NavLink>
+
                     <NavLink to="/available" >
                         Available Lands
                     </NavLink>
+
+                    <NavLink className='nav' to={`/land/${searchAddress}`} onClick={(e) => { setHideLandSearch(false); e.preventDefault() }} >Search Land</NavLink>
+                    <SearchLand setAddr={setSearchAddress} setHide={setHideLandSearch} hide={hideLandSearch}></SearchLand>
+
+                    <NavLink className='nav' to={`/owner/${searchAddress}`} onClick={(e) => { setHideOwnerSearch(false); e.preventDefault() }} >Search Owner</NavLink>
+                    <SearchOwners setAddr={setSearchAddress} setHide={setHideOwnerSearch} hide={hideOwnerSearch}></SearchOwners>
                 </div>
             </div>
             <div className="border-t ">
