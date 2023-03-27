@@ -2,15 +2,17 @@ import React, { useContext, useState } from 'react';
 import { Web3Context } from '../utils/contexts/Contract';
 import logo from "../imgs/logo.png";
 import NavLink from "./NavLink";
-import SearchOwners from "./modals/SeachOwners"
-import SearchLand from "./modals/SearchLand"
+import SearchOwners from "./modals/SeachOwners";
+import SearchLand from "./modals/SearchLand";
+import { useParams } from "react-router-dom";
 
 const NavBar = () => {
 
     const { account } = useContext(Web3Context);
+    const { address } = useParams();
     const [hideOwnerSearch, setHideOwnerSearch] = useState(true);
     const [hideLandSearch, setHideLandSearch] = useState(true);
-    const [searchAddress, setSearchAddress] = useState("");
+    const [searchAddress, setSearchAddress] = useState(address ? address : "");
 
 
     return (
