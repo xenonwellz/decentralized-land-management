@@ -3,7 +3,7 @@ import PageLayout from '../components/PageLayout';
 import LandCard from '../components/LandCard';
 import { Web3Context } from '../utils/contexts/Contract';
 
-const Home = () => {
+const Available = () => {
     const { contract, account } = useContext(Web3Context);
     const [lands, setLands] = useState({});
 
@@ -12,7 +12,7 @@ const Home = () => {
     }, [])
 
     const getLands = async () => {
-        const _lands = await contract.methods.getAllLands.call().call();
+        const _lands = await contract.methods.getSellable().call().call();
 
         const landObj = {};
         for (let i = 0; i < _lands.length; i++) {
@@ -25,13 +25,13 @@ const Home = () => {
 
     return (
         <PageLayout>
-            <div className="grid grid-cols-5 gap-4">
+            {Object.keys(lands).length > 0 ? <div className="grid grid-cols-5 gap-4">
                 {Object.keys(lands).map(land =>
                     < LandCard key={land} land={lands[land]} id={land} />
                 )}
-            </div>
+            </div> : <div className='text-center font-semibold'>No lands available for sale.</div>}
         </PageLayout>
     );
 }
 
-export default Home;
+export default Available;

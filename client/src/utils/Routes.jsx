@@ -1,5 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
+import Available from "../pages/Available";
+import OwnerLands from "../pages/OwnerLands"
+import Land from "../pages/Land"
 import React from "react";
 import ErrorPage from "../components/ErrorPage";
 
@@ -12,16 +15,16 @@ const routes = createBrowserRouter([
     },
     {
         path: "/available",
-        element: <Home />,
+        element: <Available />,
         errorElement: <ErrorPage error='-1' />,
     },
     {
         path: "/owner/:address",
-        element: <Home />,
+        element: <OwnerLands />,
     },
     {
         path: "/land/:address",
-        element: <Home />,
+        element: <Land />,
         errorElement: <ErrorPage error='-1' />,
     },
 ]);

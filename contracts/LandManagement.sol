@@ -21,6 +21,7 @@ contract LandManagement {
     mapping(address => uint256) public ownerLandCount;
     mapping(address => uint256) public landHistoryCount;
     uint256 public landCount;
+    uint256 public sellableLandCount;
 
     modifier onlyAdmin() {
         require(msg.sender == admin, "Only admin can perform this operation.");
@@ -112,7 +113,19 @@ contract LandManagement {
         require(!lands[landId].isForSale, "This land is already for sale.");
         lands[landId].price = price;
         lands[landId].isForSale = true;
+        sellableLandCount++;
         emit LandForSale(landId, price, msg.sender);
+    }
+
+    function stopSale(address landId) public {
+        require(
+            msg.sender == lands[landId].owner,
+            "You must own this land to stop its sale."
+        );
+        require(lands[landId].isForSale, "This land is not for sale.");
+        lands[landId].price = 0;
+        lands[landId].isForSale = false;
+        sellableLandCount--;
     }
 
     function buyLand(address landId) public payable {
@@ -122,11 +135,12 @@ contract LandManagement {
         address oldOwner = land.owner;
         ownerLandCount[oldOwner]--;
         land.owner = msg.sender;
+        land.price = 0;
         ownerLandCount[msg.sender]++;
         landHistory[landId].push(LandHistory(msg.sender, block.timestamp));
         land.isForSale = false;
         landHistoryCount[landId]++;
-
+        sellableLandCount--;
         payable(oldOwner).transfer(msg.value);
         emit LandSold(
             landId,
@@ -148,5 +162,25 @@ contract LandManagement {
             }
         }
         return landsForAccount;
+    }
+
+    function getSellable() public view returns (address[] memory) {
+        uint256 count = sellableLandCount;
+        address[] memory landsForSale = new address[](count);
+        for (uint256 i = 0; i < landCount; i++) {
+            if (lands[landsArray[i]].isForSale) {
+                landsForSale[i] = landsArray[i];
+            }
+        }
+        return landsForSale;
+    }
+
+    function getAllLands() public view returns (address[] memory) {
+        uint256 count = landCount;
+        address[] memory allLands = new address[](count);
+        for (uint256 i = 0; i < landCount; i++) {
+            allLands[i] = landsArray[i];
+        }
+        return allLands;
     }
 }

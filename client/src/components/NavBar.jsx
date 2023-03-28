@@ -1,18 +1,30 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Web3Context } from '../utils/contexts/Contract';
 import logo from "../imgs/logo.png";
 import NavLink from "./NavLink";
 import SearchOwners from "./modals/SeachOwners";
 import SearchLand from "./modals/SearchLand";
 import { useParams } from "react-router-dom";
+import AddLand from "./modals/AddLand"
 
 const NavBar = () => {
 
-    const { account } = useContext(Web3Context);
+    const { account, contract } = useContext(Web3Context);
     const { address } = useParams();
+    const [admin, setAdmin] = useState("");
     const [hideOwnerSearch, setHideOwnerSearch] = useState(true);
     const [hideLandSearch, setHideLandSearch] = useState(true);
+    const [hideAddLand, setHideAddLand] = useState(true);
     const [searchAddress, setSearchAddress] = useState(address ? address : "");
+
+    const getAdmin = async () => {
+        const admin = await contract.methods.admin.call().call()
+        setAdmin(admin);
+    }
+
+    useEffect(() => {
+        getAdmin();
+    }, []);
 
 
     return (
@@ -29,11 +41,16 @@ const NavBar = () => {
                         Available Lands
                     </NavLink>
 
-                    <NavLink className='nav' to={`/land/${searchAddress}`} onClick={(e) => { setHideLandSearch(false); e.preventDefault() }} >Search Land</NavLink>
+                    <NavLink className='nav' to={`/land/${searchAddress}`} onClick={(e) => { setHideLandSearch(false); e.preventDefault() }} >View Land</NavLink>
                     <SearchLand setAddr={setSearchAddress} setHide={setHideLandSearch} hide={hideLandSearch}></SearchLand>
 
-                    <NavLink className='nav' to={`/owner/${searchAddress}`} onClick={(e) => { setHideOwnerSearch(false); e.preventDefault() }} >Search Owner</NavLink>
+                    <NavLink className='nav' to={`/owner/${searchAddress}`} onClick={(e) => { setHideOwnerSearch(false); e.preventDefault() }} >View Owner Lands</NavLink>
                     <SearchOwners setAddr={setSearchAddress} setHide={setHideOwnerSearch} hide={hideOwnerSearch}></SearchOwners>
+
+                    {account.toUpperCase() === admin.toUpperCase() ? <>
+                        <button className='nav' onClick={(e) => { setHideAddLand(false); e.preventDefault() }} >Add Land</button>
+                        <AddLand setAddr={setSearchAddress} setHide={setHideAddLand} hide={hideAddLand}></AddLand>
+                    </> : null}
                 </div>
             </div>
             <div className="border-t ">

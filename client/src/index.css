@@ -6,6 +6,7 @@
 input[type="text"],
 input[type="password"],
 input[type="email"],
+textarea,
 input[type="number"] {
   @apply w-full p-2 border rounded-lg focus:border-sky-800 focus:ring focus:ring-sky-800/30 focus:outline-none;
 }
