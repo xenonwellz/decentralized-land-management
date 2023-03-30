@@ -22,11 +22,21 @@ const Modal = ({ hide, setHide, setAddr }) => {
             setStatus({ code: 0, text: "No file selected." });
             return;
         }
+        if (name.length < 10 || name.length > 25) {
+            setStatus({ code: 0, text: "Name must be between 10-25 characters." });
+            return;
+        }
+
+        if (description.length < 30 || description.legth > 50) {
+            setStatus({ code: 0, text: "Description must be between 30-50 characters." });
+            return;
+        }
+
         const jsonData = JSON.stringify({ name, description, metadata });
         const jsonHash = await uploadFile(jsonData);
         const photoHash = await uploadFile(file);
 
-        await contract.methods.addLand(jsonHash, photoHash).send({ from: account }).then((res, err) => {
+        await contract.methods.addLand(photoHash, jsonHash).send({ from: account }).then((res, err) => {
             if (res) {
                 setStatus({ code: 1, text: "Land added successfully as: " + res.events.LandAdded.returnValues.landId });
                 setMetaData({});

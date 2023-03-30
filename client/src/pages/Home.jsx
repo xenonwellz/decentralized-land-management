@@ -25,11 +25,11 @@ const Home = () => {
 
     return (
         <PageLayout>
-            <div className="grid grid-cols-5 gap-4">
+            {Object.keys(lands).length > 0 ? <div className="grid grid-cols-5 gap-4">
                 {Object.keys(lands).map(land =>
                     < LandCard key={land} land={lands[land]} id={land} />
                 )}
-            </div>
+            </div> : <div className="font-semibold text-center">No land to display.</div>}
         </PageLayout>
     );
 }

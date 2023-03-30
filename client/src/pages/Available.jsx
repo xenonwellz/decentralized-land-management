@@ -12,7 +12,7 @@ const Available = () => {
     }, [])
 
     const getLands = async () => {
-        const _lands = await contract.methods.getSellable().call().call();
+        const _lands = await contract.methods.getSellable().call();
 
         const landObj = {};
         for (let i = 0; i < _lands.length; i++) {

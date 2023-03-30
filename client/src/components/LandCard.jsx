@@ -11,7 +11,7 @@ const LandCard = ({ land, id }) => {
     // https://skywalker.infura-ipfs.io/ipfs/QmWRKdYm7MNu4vik28oVLE19SRhe1qx7966V3tCatykdn4
 
     const init = async () => {
-        const response = await fetch(`https://skywalker.infura-ipfs.io/ipfs/${land.photoHash}`);
+        const response = await fetch(`https://skywalker.infura-ipfs.io/ipfs/${land.jsonHash}`);
         try {
             const data = await response.json();
             setJson(data);
@@ -26,7 +26,9 @@ const LandCard = ({ land, id }) => {
 
     return (
         <div className="overflow-hidden bg-white rounded shadow-2xl grid grid-rows-1 flex-col">
-            <img className="w-full" src={`https://skywalker.infura-ipfs.io/ipfs/${land.jsonHash}`} alt="Land for Sale" />
+            <div className="max-h-[200px] overflow-hidden">
+                <img className="w-full" src={`https://skywalker.infura-ipfs.io/ipfs/${land.photoHash}`} alt="Land for Sale" />
+            </div>
             <div className="px-6 py-4 w-full flex-shrink">
                 <div className="mb-2 text-xl font-bold">{json?.name}</div>
                 <p className="text-base text-gray-700">
